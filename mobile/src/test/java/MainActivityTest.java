@@ -10,6 +10,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.ActivityController;
 
@@ -38,13 +39,11 @@ import static org.robolectric.Robolectric.shadowOf;
  *
  */
 @Config(emulateSdk = 18)
-@RunWith(RobolectricDaggerTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class MainActivityTest extends TestCase {
 
     @Inject MainActivity sut;
     private @Mock UserInfoProvider mockUserInfoProvider;
-
-    private ArgumentCaptor<UserInfoProvider> captor;
 
     @Before
     public void setUp() throws Exception {
