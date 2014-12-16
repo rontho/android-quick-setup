@@ -1,3 +1,4 @@
+import android.location.LocationManager;
 import android.widget.TextView;
 
 import junit.framework.TestCase;
@@ -5,6 +6,7 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -12,17 +14,21 @@ import org.robolectric.annotation.Config;
 import org.robolectric.util.ActivityController;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
 import fr.cityway.tagvalidator.R;
 import fr.cityway.tagvalidator.infrastructure.module.ActivityModule;
+import fr.cityway.tagvalidator.infrastructure.module.ApplicationModule;
 import fr.cityway.tagvalidator.infrastructure.provider.UserInfoProvider;
 import fr.cityway.tagvalidator.ui.main.MainActivity;
 
+import static android.content.Context.LOCATION_SERVICE;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
 import static org.robolectric.Robolectric.buildActivity;
 import static org.robolectric.Robolectric.shadowOf;
 
@@ -36,7 +42,9 @@ import static org.robolectric.Robolectric.shadowOf;
 public class MainActivityTest extends TestCase {
 
     @Inject MainActivity sut;
-    public @Mock UserInfoProvider mockUserInfoProvider;
+    private @Mock UserInfoProvider mockUserInfoProvider;
+
+    private ArgumentCaptor<UserInfoProvider> captor;
 
     @Before
     public void setUp() throws Exception {
@@ -54,10 +62,11 @@ public class MainActivityTest extends TestCase {
     @Test
     public void explicitCall(){
         //init
-        ActivityController<MainActivity> activityController = ActivityController.of(sut);
+        //ActivityController<MainActivity> activityController = ActivityController.of(sut);
 
         //run
-        // This doesn't work for now... activityController.start().create().resume().get();
+        // This doesn't work for now...
+        //MainActivity activity = activityController.create().start().resume().visible().get();
         sut.fakeMethod();
 
         //verify
@@ -67,6 +76,7 @@ public class MainActivityTest extends TestCase {
     @Module(
             includes = {ActivityModule.class},
             injects = MainActivityTest.class,
+            complete = false,
             overrides = true,
             library = true
     )
@@ -74,6 +84,11 @@ public class MainActivityTest extends TestCase {
         @Provides
         UserInfoProvider provideUserInfoProvider() {
             return mockUserInfoProvider;
+        }
+
+        @Provides @Singleton
+        LocationManager provideLocationManager() {
+            return null;
         }
     }
 }

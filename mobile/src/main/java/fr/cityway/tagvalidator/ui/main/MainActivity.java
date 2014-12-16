@@ -1,15 +1,21 @@
 package fr.cityway.tagvalidator.ui.main;
 
 import android.app.Activity;
+import android.location.LocationManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.common.annotations.VisibleForTesting;
+
+import java.util.List;
+
 import javax.inject.Inject;
 
 import dagger.ObjectGraph;
 import fr.cityway.tagvalidator.R;
+import fr.cityway.tagvalidator.infrastructure.log.Logger;
 import fr.cityway.tagvalidator.infrastructure.module.ActivityModule;
 import fr.cityway.tagvalidator.infrastructure.provider.UserInfoProvider;
 import fr.cityway.tagvalidator.ui.BaseActivity;
@@ -18,6 +24,12 @@ import fr.cityway.tagvalidator.ui.BaseActivity;
 public class MainActivity extends BaseActivity { // extends ActionBarActivity
 
     @Inject UserInfoProvider userInfoProvider;
+    @Inject Logger logger;
+    @Inject LocationManager locationManager;
+
+    public MainActivity() {
+        super();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +62,9 @@ public class MainActivity extends BaseActivity { // extends ActionBarActivity
     @Override
     protected void onResume() {
         super.onResume();
+        logger.i("Main Activity resumed");
         userInfoProvider.getUserValidationHistory();
+        List<String> allProviders = locationManager.getAllProviders();
     }
 
     public void fakeMethod() {

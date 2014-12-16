@@ -7,7 +7,11 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import fr.cityway.tagvalidator.BuildConfig;
 import fr.cityway.tagvalidator.infrastructure.annotation.ForApplication;
+import fr.cityway.tagvalidator.infrastructure.log.Logger;
+import fr.cityway.tagvalidator.infrastructure.log.LoggerDebug;
+import fr.cityway.tagvalidator.infrastructure.log.LoggerRelease;
 import fr.cityway.tagvalidator.ui.TagValidatorApplication;
 
 import static android.content.Context.LOCATION_SERVICE;
