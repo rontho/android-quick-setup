@@ -10,6 +10,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.ActivityController;
@@ -24,7 +25,9 @@ import fr.cityway.tagvalidator.R;
 import fr.cityway.tagvalidator.infrastructure.module.ActivityModule;
 import fr.cityway.tagvalidator.infrastructure.module.ApplicationModule;
 import fr.cityway.tagvalidator.infrastructure.provider.UserInfoProvider;
+import fr.cityway.tagvalidator.ui.TagValidatorApplication;
 import fr.cityway.tagvalidator.ui.main.MainActivity;
+import java_cup.Main;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -42,13 +45,13 @@ import static org.robolectric.Robolectric.shadowOf;
 @RunWith(RobolectricTestRunner.class)
 public class MainActivityTest extends TestCase {
 
-    @Inject MainActivity sut;
+//    @Inject MainActivity sut;
     private @Mock UserInfoProvider mockUserInfoProvider;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        ObjectGraph.create(new TestModule()).inject(this);
+        //ObjectGraph.create(new TestModule()).inject(this);
     }
 
     @Test
@@ -62,21 +65,23 @@ public class MainActivityTest extends TestCase {
     public void explicitCall(){
         //init
         //ActivityController<MainActivity> activityController = ActivityController.of(sut);
+        //MainActivity mainActivity = Robolectric.buildActivity(MainActivity.class).create().start().resume().get();
+
+        ((TagValidatorApplication)Robolectric.application).getAppModules().add(new TestModule());
+        MainActivity activity = Robolectric.buildActivity(MainActivity.class).create().get();
 
         //run
         // This doesn't work for now...
         //MainActivity activity = activityController.create().start().resume().visible().get();
-        sut.fakeMethod();
+        activity.fakeMethod();
 
         //verify
         Mockito.verify(mockUserInfoProvider).getUserValidationHistory();
     }
 
     @Module(
-            includes = {ActivityModule.class},
-            injects = MainActivityTest.class,
+            injects = MainActivity.class,
             complete = false,
-            overrides = true,
             library = true
     )
     class TestModule {

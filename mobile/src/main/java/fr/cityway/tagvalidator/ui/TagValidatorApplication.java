@@ -2,6 +2,10 @@ package fr.cityway.tagvalidator.ui;
 
 import android.app.Application;
 
+import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +19,8 @@ import fr.cityway.tagvalidator.infrastructure.module.ApplicationModule;
  * add additional modules.
  */
 public class TagValidatorApplication extends Application {
+
+    public static final Bus eventBus = new Bus(ThreadEnforcer.ANY);
 
     private ObjectGraph graph;
 

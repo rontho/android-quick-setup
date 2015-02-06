@@ -1,22 +1,24 @@
 package fr.cityway.tagvalidator.ui.main;
 
-import android.app.Activity;
 import android.location.LocationManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.common.annotations.VisibleForTesting;
-
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.ObjectGraph;
 import fr.cityway.tagvalidator.R;
+import fr.cityway.tagvalidator.infrastructure.annotation.OnlyForTest;
+import fr.cityway.tagvalidator.infrastructure.database.Dao;
+import fr.cityway.tagvalidator.infrastructure.database.UnrecoverableDbException;
+import fr.cityway.tagvalidator.infrastructure.database.model.SimpleDatabaseData;
+import fr.cityway.tagvalidator.infrastructure.database.ormlite.DatabaseHelper;
+import fr.cityway.tagvalidator.infrastructure.database.ormlite.OrmLiteDaoFactory;
 import fr.cityway.tagvalidator.infrastructure.log.Logger;
-import fr.cityway.tagvalidator.infrastructure.module.ActivityModule;
 import fr.cityway.tagvalidator.infrastructure.provider.UserInfoProvider;
 import fr.cityway.tagvalidator.ui.BaseActivity;
 
@@ -27,6 +29,7 @@ public class MainActivity extends BaseActivity { // extends ActionBarActivity
     @Inject Logger logger;
     @Inject LocationManager locationManager;
 
+    @OnlyForTest
     public MainActivity() {
         super();
     }
@@ -64,7 +67,27 @@ public class MainActivity extends BaseActivity { // extends ActionBarActivity
         super.onResume();
         logger.i("Main Activity resumed");
         userInfoProvider.getUserValidationHistory();
-        List<String> allProviders = locationManager.getAllProviders();
+
+        OrmLiteDaoFactory daoFactory = new OrmLiteDaoFactory(new DatabaseHelper(this));
+
+        try {
+
+            final Dao<SimpleDatabaseData> dataDao = daoFactory.getDao(SimpleDatabaseData.class);
+            dataDao.create(new SimpleDatabaseData(15000l));
+
+            final List<SimpleDatabaseData> simpleDatabaseDatas = dataDao.getByExample("millis", 15000l);
+
+            for (SimpleDatabaseData simpleDatabaseData : simpleDatabaseDatas) {
+                Log.d("TEST :: ", simpleDatabaseData.toString());
+            }
+
+
+        } catch (UnrecoverableDbException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void fakeMethod() {
