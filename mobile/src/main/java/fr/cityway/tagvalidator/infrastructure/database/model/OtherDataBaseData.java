@@ -13,4 +13,9 @@ public class OtherDataBaseData implements DatabaseObject {
     int id;
     @DatabaseField
     String name;
+
+    @Override
+    public int getId() {
+        return id;
+    }
 }

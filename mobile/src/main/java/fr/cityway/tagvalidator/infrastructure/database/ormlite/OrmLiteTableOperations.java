@@ -5,11 +5,13 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
+import fr.cityway.tagvalidator.infrastructure.database.TableOperations;
+
 /**
  * Created by troncaglia on 06/02/2015.
  */
-public class TableOperationsImpl implements TableOperations {
-    public TableOperationsImpl() {
+public class OrmLiteTableOperations implements TableOperations {
+    public OrmLiteTableOperations() {
     }
 
     @Override

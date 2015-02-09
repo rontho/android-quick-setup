@@ -5,13 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.cityway.tagvalidator.infrastructure.database.DatabaseObject;
+import fr.cityway.tagvalidator.infrastructure.database.TableOperations;
 import fr.cityway.tagvalidator.infrastructure.database.model.OtherDataBaseData;
 import fr.cityway.tagvalidator.infrastructure.database.model.SimpleDatabaseData;
 
@@ -28,7 +28,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.tableOperations = new TableOperationsImpl();
+        this.tableOperations = new OrmLiteTableOperations();
         tableList.add(SimpleDatabaseData.class);
         tableList.add(OtherDataBaseData.class);
     }

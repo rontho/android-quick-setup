@@ -1,4 +1,4 @@
-package fr.cityway.tagvalidator.infrastructure.database.ormlite;
+package fr.cityway.tagvalidator.infrastructure.database;
 
 import com.j256.ormlite.support.ConnectionSource;
 import java.sql.SQLException;

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 /**
  * Created by troncaglia on 06/02/2015.
  */
-public class UnrecoverableDbException extends Throwable {
+public class UnrecoverableDbException extends RuntimeException {
 
     public UnrecoverableDbException() {}
 

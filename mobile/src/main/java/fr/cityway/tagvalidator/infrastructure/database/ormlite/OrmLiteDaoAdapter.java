@@ -17,26 +17,19 @@ import fr.cityway.tagvalidator.infrastructure.database.DatabaseObject;
 public class OrmLiteDaoAdapter <T extends DatabaseObject> implements Dao<T> {
 
     private final com.j256.ormlite.dao.Dao<T,java.lang.Integer> realDao;
-    private final TransactionManager transactionManager;
 
-    public OrmLiteDaoAdapter (final com.j256.ormlite.dao.Dao<T , Integer> dao, final TransactionManager manager) {
+    public OrmLiteDaoAdapter (final com.j256.ormlite.dao.Dao<T , Integer> dao) {
         this.realDao = dao;
-        this.transactionManager = new OrmLiteTransactionManagerAdapter(manager);
     }
 
     @Override
-    public void create(final T databaseRow) throws SQLException {
-        transactionManager.callInTransaction(new Callable() {
-            public Void call() throws Exception {
-                realDao.create(databaseRow);
-                return null;
-            }
-        });
+    public void create(final T databaseObject) throws SQLException {
+        realDao.create(databaseObject);
     }
 
     @Override
-    public void createOrUpdate(T databaseRow) throws SQLException {
-        realDao.createOrUpdate(databaseRow);
+    public void createOrUpdate(T databaseObject) throws SQLException {
+        realDao.createOrUpdate(databaseObject);
     }
 
     @Override
@@ -52,13 +45,13 @@ public class OrmLiteDaoAdapter <T extends DatabaseObject> implements Dao<T> {
     }
 
     @Override
-    public List<T> getByExample(String fieldName, Object value) throws SQLException {
+    public List<T> getByExample(final String fieldName, final Object value) throws SQLException {
         return realDao.queryForEq(fieldName, value);
     }
 
     @Nullable
     @Override
-    public T getById(T id) {
-        return null;
+    public T getById(T databaseObject) throws SQLException {
+        return realDao.queryForId(databaseObject.getId());
     }
 }

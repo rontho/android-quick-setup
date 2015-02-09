@@ -11,17 +11,24 @@ import fr.cityway.tagvalidator.infrastructure.database.UnrecoverableDbException;
 
 public class OrmLiteDaoFactory implements DaoFactory {
     private final DatabaseHelper databaseHelper;
+    private final TransactionManager transactionManager;
 
     public OrmLiteDaoFactory(final DatabaseHelper databaseHelper) {
         this.databaseHelper = databaseHelper;
+        this.transactionManager = new OrmLiteTransactionManagerAdapter(new TransactionManager(databaseHelper.getConnectionSource()));
+
     }
 
-    public <T extends DatabaseObject> Dao<T> getDao(Class<T> clazz) throws UnrecoverableDbException {
+    public <T extends DatabaseObject> Dao<T> getDao(Class<T> clazz) {
         try {
-            final TransactionManager manager = new TransactionManager(databaseHelper.getConnectionSource());
-            return new OrmLiteDaoAdapter(this.databaseHelper.getDao(clazz), manager);
+            return new OrmLiteDaoAdapter(this.databaseHelper.getDao(clazz));
         } catch (SQLException exception) {
             throw new UnrecoverableDbException("Unknown error while trying to getDao for " + clazz, exception);
         }
+    }
+
+    @Override
+    public TransactionManager getTransactionManager() {
+        return transactionManager;
     }
 }

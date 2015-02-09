@@ -47,4 +47,9 @@ public class SimpleDatabaseData implements DatabaseObject {
         sb.append(", ").append("even=").append(even);
         return sb.toString();
     }
+
+    @Override
+    public int getId() {
+        return id;
+    }
 }

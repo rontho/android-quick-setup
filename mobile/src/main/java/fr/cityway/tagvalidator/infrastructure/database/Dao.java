@@ -6,12 +6,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by troncaglia on 06/02/2015.
+ * The DAO gives you access to a database table. You can create a new raw, update it, delete all the
+ * values in the table or get access to all the elements, or specific element by example or id.
  */
 public interface Dao<T> {
-    void create(T var1) throws SQLException;
+    void create(T databaseObject) throws SQLException;
 
-    void createOrUpdate(T var1) throws SQLException;
+    void createOrUpdate(T databaseObject) throws SQLException;
 
     void deleteAll() throws SQLException;
 
@@ -20,5 +21,5 @@ public interface Dao<T> {
     List<T> getByExample(String fieldName, Object value) throws SQLException;
 
     @Nullable
-    T getById(T id);
+    T getById(T id) throws SQLException;
 }

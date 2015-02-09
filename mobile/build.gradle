@@ -38,6 +38,7 @@ dependencies {
     compile 'com.android.support:support-v13:21.0.+'
     compile 'com.android.support:appcompat-v7:21.0.+'
     compile 'com.android.support:recyclerview-v7:21.0.+'
+    compile 'com.android.support:support-annotations:20.+'
 
     compile 'com.j256.ormlite:ormlite-core:4.23'
     compile 'com.j256.ormlite:ormlite-android:4.48'

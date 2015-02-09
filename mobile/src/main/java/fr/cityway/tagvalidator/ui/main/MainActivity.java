@@ -2,6 +2,7 @@ package fr.cityway.tagvalidator.ui.main;
 
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +16,8 @@ import fr.cityway.tagvalidator.R;
 import fr.cityway.tagvalidator.infrastructure.annotation.OnlyForTest;
 import fr.cityway.tagvalidator.infrastructure.database.Dao;
 import fr.cityway.tagvalidator.infrastructure.database.UnrecoverableDbException;
+import fr.cityway.tagvalidator.infrastructure.database.accessor.SimpleDataReader;
+import fr.cityway.tagvalidator.infrastructure.database.accessor.SimpleDataWriter;
 import fr.cityway.tagvalidator.infrastructure.database.model.SimpleDatabaseData;
 import fr.cityway.tagvalidator.infrastructure.database.ormlite.DatabaseHelper;
 import fr.cityway.tagvalidator.infrastructure.database.ormlite.OrmLiteDaoFactory;
@@ -68,26 +71,16 @@ public class MainActivity extends BaseActivity { // extends ActionBarActivity
         logger.i("Main Activity resumed");
         userInfoProvider.getUserValidationHistory();
 
-        OrmLiteDaoFactory daoFactory = new OrmLiteDaoFactory(new DatabaseHelper(this));
+        final OrmLiteDaoFactory daoFactory = new OrmLiteDaoFactory(new DatabaseHelper(this));
+        final SimpleDataReader simpleDataReader = new SimpleDataReader(daoFactory);
+        final SimpleDataWriter simpleDataWriter = new SimpleDataWriter(daoFactory);
 
-        try {
+        /* This is how you store values in the database */
+        simpleDataWriter.storeSimpleData(new SimpleDatabaseData(89777l));
 
-            final Dao<SimpleDatabaseData> dataDao = daoFactory.getDao(SimpleDatabaseData.class);
-            dataDao.create(new SimpleDatabaseData(15000l));
-
-            final List<SimpleDatabaseData> simpleDatabaseDatas = dataDao.getByExample("millis", 15000l);
-
-            for (SimpleDatabaseData simpleDatabaseData : simpleDatabaseDatas) {
-                Log.d("TEST :: ", simpleDatabaseData.toString());
-            }
-
-
-        } catch (UnrecoverableDbException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        /* This is how you get values in the database */
+        final SimpleDatabaseData simpleDatabaseData = simpleDataReader.getByMilis(89777l);
+        Log.d("TEST by Example :: ", simpleDatabaseData.toString());
     }
 
     public void fakeMethod() {
