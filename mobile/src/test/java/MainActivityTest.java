@@ -6,33 +6,24 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-import org.robolectric.util.ActivityController;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Module;
-import dagger.ObjectGraph;
 import dagger.Provides;
-import fr.cityway.tagvalidator.R;
-import fr.cityway.tagvalidator.infrastructure.module.ActivityModule;
-import fr.cityway.tagvalidator.infrastructure.module.ApplicationModule;
-import fr.cityway.tagvalidator.infrastructure.provider.UserInfoProvider;
-import fr.cityway.tagvalidator.ui.TagValidatorApplication;
-import fr.cityway.tagvalidator.ui.main.MainActivity;
-import java_cup.Main;
+import fr.rontho.aqs.R;
+import fr.rontho.aqs.infrastructure.provider.frontend.UserInfoProxy;
+import fr.rontho.aqs.ui.AndroidQuickSetupApplication;
+import fr.rontho.aqs.ui.main.MainActivity;
 
-import static android.content.Context.LOCATION_SERVICE;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
 import static org.robolectric.Robolectric.buildActivity;
 import static org.robolectric.Robolectric.shadowOf;
 
@@ -46,7 +37,8 @@ import static org.robolectric.Robolectric.shadowOf;
 public class MainActivityTest extends TestCase {
 
 //    @Inject MainActivity sut;
-    private @Mock UserInfoProvider mockUserInfoProvider;
+    private @Mock
+UserInfoProxy mockUserInfoProvider;
 
     @Before
     public void setUp() throws Exception {
@@ -67,7 +59,7 @@ public class MainActivityTest extends TestCase {
         //ActivityController<MainActivity> activityController = ActivityController.of(sut);
         //MainActivity mainActivity = Robolectric.buildActivity(MainActivity.class).create().start().resume().get();
 
-        ((TagValidatorApplication)Robolectric.application).getAppModules().add(new TestModule());
+        ((AndroidQuickSetupApplication)Robolectric.application).getAppModules().add(new TestModule());
         MainActivity activity = Robolectric.buildActivity(MainActivity.class).create().get();
 
         //run
@@ -76,7 +68,7 @@ public class MainActivityTest extends TestCase {
         activity.fakeMethod();
 
         //verify
-        Mockito.verify(mockUserInfoProvider).getUserValidationHistory();
+        Mockito.verify(mockUserInfoProvider).getUserInfo();
     }
 
     @Module(
@@ -86,7 +78,7 @@ public class MainActivityTest extends TestCase {
     )
     class TestModule {
         @Provides
-        UserInfoProvider provideUserInfoProvider() {
+        UserInfoProxy provideUserInfoProvider() {
             return mockUserInfoProvider;
         }
 

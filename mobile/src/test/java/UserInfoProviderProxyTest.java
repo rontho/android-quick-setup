@@ -2,14 +2,9 @@ import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import dagger.Module;
-import dagger.ObjectGraph;
-import dagger.Provides;
-import fr.cityway.tagvalidator.infrastructure.module.ActivityModule;
-import fr.cityway.tagvalidator.infrastructure.provider.frontend.UserInfoProviderProxy;
+import fr.rontho.aqs.infrastructure.provider.frontend.UserInfoProviderProxy;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -28,7 +23,7 @@ public class UserInfoProviderProxyTest extends TestCase {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        sut = new UserInfoProviderProxy();
+        sut = new UserInfoProviderProxy(eventBusAdapter, eventBusResponseProviderFactory);
     }
 
     @Test
