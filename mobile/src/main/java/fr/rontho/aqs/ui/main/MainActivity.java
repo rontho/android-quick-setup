@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity implements EventBusListener<UserI
         simpleDataWriter.storeSimpleData(new SimpleDatabaseData(89777l));
 
         /* This is how you get values in the database */
-        final SimpleDatabaseData simpleDatabaseData = simpleDataReader.getByMilis(89777l);
+        final SimpleDatabaseData simpleDatabaseData = simpleDataReader.getByMillis(89777l);
         Log.d("TEST by Example :: ", simpleDatabaseData.toString());
     }
 

@@ -43,7 +43,7 @@ public class SimpleDataReader {
     }
 
     @Nullable
-    public SimpleDatabaseData getByMilis(final long value){
+    public SimpleDatabaseData getByMillis(final long value){
         final Dao<SimpleDatabaseData> simpleDatabaseDataDao = daoFactory.getDao(SimpleDatabaseData.class);
         final TransactionManager transactionManager = daoFactory.getTransactionManager();
 

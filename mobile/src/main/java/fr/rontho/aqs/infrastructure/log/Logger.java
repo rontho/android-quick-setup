@@ -9,5 +9,4 @@ public interface Logger {
     public void i(final String message);
     public void i(final String tag, final String message);
     public void e(final String tag, final String message, final Throwable throwable);
-
 }
