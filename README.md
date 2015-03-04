@@ -19,12 +19,17 @@ If you are using AndroidStudio you need to add that [plugin](https://github.com/
   * Hamcrest
   * Robolectric
 
-## In the new version
+## In this version
 
-  * Need to setup a working OTTO EventBus
-  * Have a Basic RetroFit RestInterface
-  * Provide a local and real HttpRequestHandler
-  * Handle screen rotation using buffered event bus
+  * Added a a working OTTO EventBus
+  * Added a DaoFactory based on ORMLite
+  
+## In the Next version
+
+ * User dagger to provide Activity Context
+ * Create a caching system base on OTTO
+ * Use Retrofit to make async http request
+ * Add an exemple of a full backend to frontend communication
 
 ## See also
 
