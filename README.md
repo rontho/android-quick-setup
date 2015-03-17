@@ -1,4 +1,4 @@
-android-quick-setup
+android-quick-setup [![Build Status](https://travis-ci.org/rontho/android-quick-setup.svg?branch=master)](https://travis-ci.org/rontho/android-quick-setup)
 ===================
 
 This is a base Android project that allow me to start a new Android project from scratch with couple of good libraries I will use in my projects and configure the base module to make Dagger work out of the box. It also allow me to use Robolectric in my unit test.
