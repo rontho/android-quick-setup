@@ -1,22 +1,6 @@
-language: java
-    jdk: oraclejdk7
-    env:
-      matrix:
-        - ANDROID_SDKS=android-21  ANDROID_TARGET=android-21
-    branches:
-      only:
-        - master
-    before_install:
-      - chmod +x gradlew
-      # Install base Android SDK
-      - wget http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
-      - tar xzf android-sdk_r23.0.2-linux.tgz
-      - export ANDROID_HOME=$PWD/android-sdk-linux
-      - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
-      # install android build tools
-      - wget https://dl-ssl.google.com/android/repository/build-tools_r21.1.1-linux.zip
-      - unzip build-tools_r21.1.1-linux.zip -d $ANDROID_HOME
-      - mkdir -p $ANDROID_HOME/build-tools/
-      - mv $ANDROID_HOME/android-5.0 $ANDROID_HOME/build-tools/21.1.1
-    script:
-      - TERM=dumb ./gradlew assembleRelease
+language: android
+android:
+  components:
+    - build-tools-21.1.1
+    - android-21
+    - extra
