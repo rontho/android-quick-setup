@@ -59,7 +59,7 @@ UserInfoProxy mockUserInfoProvider;
         //ActivityController<MainActivity> activityController = ActivityController.of(sut);
         //MainActivity mainActivity = Robolectric.buildActivity(MainActivity.class).create().start().resume().get();
 
-        ((AndroidQuickSetupApplication)Robolectric.application).getAppModules().add(new TestModule());
+        ((AndroidQuickSetupApplication)Robolectric.application).inject(new TestModule());
         MainActivity activity = Robolectric.buildActivity(MainActivity.class).create().get();
 
         //run
