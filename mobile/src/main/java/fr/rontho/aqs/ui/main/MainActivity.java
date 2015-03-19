@@ -27,11 +27,8 @@ import fr.rontho.aqs.ui.BaseActivity;
 
 public class MainActivity extends BaseActivity implements EventBusListener<UserInfoAnswer> { // extends ActionBarActivity
 
-    @Inject @Named("UserInfo")
-    UserInfoProxy userInfoProvider;
-
+    @Inject @Named("UserInfo") UserInfoProxy userInfoProvider;
     @Inject Logger logger;
-    @Inject LocationManager locationManager;
 
     @OnlyForTest
     public MainActivity() {
