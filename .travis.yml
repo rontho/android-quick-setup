@@ -6,3 +6,5 @@ android:
     - extra
 script:
   ./gradlew build
+after_success:
+ ./gradlew uploadArchives
