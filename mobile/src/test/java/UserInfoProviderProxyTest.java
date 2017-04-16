@@ -5,9 +5,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import fr.rontho.aqs.infrastructure.com.bus.EventBusAdapter;
-import fr.rontho.aqs.infrastructure.provider.backend.BackEndDataProviderFactory;
-import fr.rontho.aqs.infrastructure.provider.frontend.UserInfoProviderProxy;
+import com.splashcode.aqs.data.event.bus.EventBus;
+import com.splashcode.aqs.data.provider.backend.BackEndDataProviderFactory;
+import com.splashcode.aqs.presentation.infrastructure.frontend.UserInfoProviderProxy;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -22,13 +22,14 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 public class UserInfoProviderProxyTest extends TestCase {
 
     private UserInfoProviderProxy sut;
-    @Mock EventBusAdapter mockEventBusAdapter;
+    @Mock
+    EventBus mockEventBus;
     @Mock BackEndDataProviderFactory mockEventBusResponseProviderFactory;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        sut = new UserInfoProviderProxy(mockEventBusAdapter, mockEventBusResponseProviderFactory);
+        sut = new UserInfoProviderProxy(mockEventBus, mockEventBusResponseProviderFactory);
     }
 
     @Test
