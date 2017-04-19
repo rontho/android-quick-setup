@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId 'com.splashcode.aqs'
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+    lintOptions {
+        abortOnError true
+    }
+    signingConfigs {
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
+    buildTypes {
+        debug {
+        debuggable true
+        minifyEnabled false
+        applicationIdSuffix '.debug'
+        versionNameSuffix "-debug"
+    }
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            versionNameSuffix "-release"
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+
+    compile project(':domain')
+    compile project(':data')
+
+    compile 'com.google.dagger:dagger:2.4'
+    compile 'com.google.dagger:dagger-compiler:2.4'
+
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:support-v4:25.1.1'
+    compile 'com.android.support:support-v13:25.1.1'
+    compile 'com.android.support:cardview-v7:25.1.1'
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:recyclerview-v7:25.1.1'
+    compile 'com.android.support:support-annotations:25.1.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.1'
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
+    compile 'com.jakewharton:butterknife:8.5.1'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'org.hamcrest:hamcrest-library:1.3'
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}
