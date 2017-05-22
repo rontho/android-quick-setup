@@ -5,8 +5,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.splashcode.aqs.data.event.bus.MyEventBus;
-import com.splashcode.aqs.data.provider.backend.BackEndDataProviderFactory;
+import com.splashcode.aqs.data.eventbus.EventBus;
+import com.splashcode.aqs.data.repository.backend.BackEndDataProviderFactory;
 import com.splashcode.aqs.presentation.infrastructure.frontend.UserInfoProviderProxy;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -23,13 +23,13 @@ public class UserInfoProviderProxyTest extends TestCase {
 
     private UserInfoProviderProxy sut;
     @Mock
-    MyEventBus mockMyEventBus;
+    EventBus mockEventBus;
     @Mock BackEndDataProviderFactory mockEventBusResponseProviderFactory;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        sut = new UserInfoProviderProxy(mockMyEventBus, mockEventBusResponseProviderFactory);
+        sut = new UserInfoProviderProxy(mockEventBus, mockEventBusResponseProviderFactory);
     }
 
     @Test

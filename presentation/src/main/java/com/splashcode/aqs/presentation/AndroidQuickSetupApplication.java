@@ -3,7 +3,6 @@ package com.splashcode.aqs.presentation;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
-import com.google.common.eventbus.EventBus;
 import com.splashcode.aqs.presentation.infrastructure.di.ApplicationComponent;
 import com.splashcode.aqs.presentation.infrastructure.di.ApplicationModule;
 import com.splashcode.aqs.presentation.infrastructure.di.DaggerApplicationComponent;

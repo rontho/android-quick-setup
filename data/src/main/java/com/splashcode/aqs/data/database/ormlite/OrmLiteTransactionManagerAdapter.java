@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.concurrent.Callable;
 
 /**
- * Created by troncaglia on 06/02/2015.
+ * Adapter that delegates the call in transaction to the OrmLite Transaction Manager.
  */
 public class OrmLiteTransactionManagerAdapter extends TransactionManager {
     private final TransactionManager transactionManager;

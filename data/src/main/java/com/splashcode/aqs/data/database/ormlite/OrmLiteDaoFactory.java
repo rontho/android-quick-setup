@@ -9,6 +9,9 @@ import com.splashcode.aqs.data.database.DaoFactory;
 import com.splashcode.aqs.data.database.DatabaseObject;
 import com.splashcode.aqs.data.database.UnrecoverableDbException;
 
+/**
+ * Factory that creates DAO to access a database table based on the {@link DatabaseObject} name.
+ */
 public class OrmLiteDaoFactory implements DaoFactory {
     private final DatabaseHelper databaseHelper;
     private final TransactionManager transactionManager;

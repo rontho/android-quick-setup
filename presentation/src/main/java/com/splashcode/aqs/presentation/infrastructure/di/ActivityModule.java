@@ -1,22 +1,36 @@
 package com.splashcode.aqs.presentation.infrastructure.di;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.splashcode.aqs.BuildConfig;
-import com.splashcode.aqs.data.event.bus.GuavaMyEventBus;
-import com.splashcode.aqs.data.event.bus.MyEventBus;
+import com.splashcode.aqs.R;
+import com.splashcode.aqs.data.eventbus.EventBus;
+import com.splashcode.aqs.data.http.HttpRequestMaker;
+import com.splashcode.aqs.data.repository.UserCloudRepository;
+import com.splashcode.aqs.data.repository.UserDatabaseRepository;
+import com.splashcode.aqs.data.repository.translator.UserDataTranslator;
+import com.splashcode.aqs.domain.event.answer.AnswerFactory;
+import com.splashcode.aqs.domain.event.bus.EventBusProducer;
+import com.splashcode.aqs.domain.repository.UserRepository;
+import com.splashcode.aqs.domain.usecase.UseCaseFactory;
+import com.splashcode.aqs.domain.usecase.UseCaseRunner;
 import com.splashcode.aqs.presentation.infrastructure.annotation.PerActivity;
-import com.splashcode.aqs.presentation.infrastructure.log.Logger;
-import com.splashcode.aqs.presentation.infrastructure.log.LoggerDebug;
-import com.splashcode.aqs.presentation.infrastructure.log.LoggerRelease;
-import com.splashcode.aqs.data.provider.backend.BackEndDataProviderFactory;
-import com.splashcode.aqs.presentation.infrastructure.frontend.UserInfoProviderProxy;
-import com.splashcode.aqs.presentation.infrastructure.frontend.UserInfoProxy;
+import com.splashcode.aqs.data.log.CustomLogger;
+import com.splashcode.aqs.data.log.CustomLoggerDebug;
+import com.splashcode.aqs.data.log.CustomLoggerRelease;
+import com.splashcode.aqs.presentation.presenter.MainActivityPresenter;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by troncaglia on 15/12/2014.
@@ -36,36 +50,17 @@ public class ActivityModule {
         return this.activity;
     }
 
-    @Provides @Named("UserInfo")
-    UserInfoProxy provideUserInfoProviderProxy(final MyEventBus myEventBus, final BackEndDataProviderFactory eventBusResponseProviderFactory){
-        return new UserInfoProviderProxy(myEventBus, eventBusResponseProviderFactory);
+    @Provides
+    public CustomLogger provideLogger(){
+        return BuildConfig.DEBUG ? new CustomLoggerDebug() : new CustomLoggerRelease();
     }
 
     @Provides
-    MyEventBus provideEventBusAdapter(){
-        return new GuavaMyEventBus();
+    public MainActivityPresenter provideMainActivityPresenter(final CustomLogger customLogger, final EventBus eventBus, final UseCaseRunner useCaseRunner, final UseCaseFactory useCaseFactory){
+        return new MainActivityPresenter(customLogger, eventBus, useCaseRunner, useCaseFactory);
     }
 
-    @Provides BackEndDataProviderFactory provideBackEndDataProviderFactory(){
-        return new BackEndDataProviderFactory();
+    @Provides UseCaseFactory provideUseCaseFactory(final AnswerFactory answerFactory, final EventBusProducer eventBusProducer, @Named("LocalUserRepository") final UserRepository databaseDataRepository, @Named("CloudUserRepository") final UserRepository cloudUserRepository){
+        return new UseCaseFactory(answerFactory, eventBusProducer, databaseDataRepository, cloudUserRepository);
     }
-
-    @Provides
-    public Logger provideLogger(){
-        return BuildConfig.DEBUG ? new LoggerDebug() : new LoggerRelease();
-    }
-
-//    private Retrofit getBeezyAroundRestAdapter(final Context context) {
-//        final OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
-//        okHttpClient.addInterceptor(new HttpLoggingInterceptor());
-//
-//        okHttpClient.readTimeout(30, TimeUnit.SECONDS);
-//        okHttpClient.connectTimeout(30, TimeUnit.SECONDS);
-//
-//        return new Retrofit.Builder()
-//                .baseUrl(context.getString(R.string.base_url))
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .client(okHttpClient.build())
-//                .build();
-//    }
 }

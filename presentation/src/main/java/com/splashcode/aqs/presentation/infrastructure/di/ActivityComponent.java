@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import com.splashcode.aqs.presentation.infrastructure.annotation.PerActivity;
 import com.splashcode.aqs.presentation.view.BaseActivity;
-import com.splashcode.aqs.presentation.activity.MainActivity;
+import com.splashcode.aqs.presentation.view.activity.MainActivity;
 
 import dagger.Component;
 

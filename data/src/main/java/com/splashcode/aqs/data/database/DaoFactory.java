@@ -3,7 +3,7 @@ package com.splashcode.aqs.data.database;
 import com.j256.ormlite.misc.TransactionManager;
 
 /**
- * Created by troncaglia on 06/02/2015.
+ * Interface definition to create a DaoFactory.
  */
 public interface DaoFactory {
     <T extends DatabaseObject> Dao<T> getDao(Class<T> clazz) throws UnrecoverableDbException;

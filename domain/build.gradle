@@ -1,9 +1,25 @@
 apply plugin: 'java'
 
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+configurations {
+    provided
+}
+
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    provided "javax.annotation:jsr250-api:1.0"
+
+    compile "javax.inject:javax.inject:1"
+
     compile 'junit:junit:4.12'
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"

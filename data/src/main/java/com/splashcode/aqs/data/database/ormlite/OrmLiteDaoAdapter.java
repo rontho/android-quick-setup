@@ -9,13 +9,13 @@ import com.splashcode.aqs.data.database.Dao;
 import com.splashcode.aqs.data.database.DatabaseObject;
 
 /**
- * Created by troncaglia on 06/02/2015.
+ * This class is a wrapper around the ormlite dao.
  */
 public class OrmLiteDaoAdapter <T extends DatabaseObject> implements Dao<T> {
 
     private final com.j256.ormlite.dao.Dao<T,java.lang.Integer> realDao;
 
-    public OrmLiteDaoAdapter (final com.j256.ormlite.dao.Dao<T , Integer> dao) {
+    public OrmLiteDaoAdapter(final com.j256.ormlite.dao.Dao<T , Integer> dao) {
         this.realDao = dao;
     }
 
